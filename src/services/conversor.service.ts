@@ -11,7 +11,6 @@ export class ConversorService {
   constructor(private http: HttpClient) { }
 
 
-// Función para obtener los tipos de cambio
   getTasasDeCambio(): Observable<any> {
     return this.http.get(this.apiUrl);
   }
