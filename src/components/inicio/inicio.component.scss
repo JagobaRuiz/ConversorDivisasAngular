@@ -1,8 +1,25 @@
-.form-control, .form-select {
+.form-control {
   width: 24em;
   height: 4em;
 }
 
+mat-form-field {
+  width: 24em;
+  //height: 4em;
+}
+
+.mat-mdc-form-field-infix {
+  width: 24em;
+}
+
+mat-mdc-form-field-infix {
+  width: 24em;
+}
+
+.mat-select-panel {
+  min-width: 300px !important; /* Ancho mínimo */
+  max-width: 400px !important; /* Ancho máximo opcional */
+}
 
 input, select {
   padding: 5px;

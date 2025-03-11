@@ -1,8 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {ConversorService} from '../../services/conversor.service';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {CurrencyPipe, NgForOf, NgIf} from '@angular/common';
+import {CurrencyPipe, NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
 import {Monedas} from '../../enums/monedas';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field'
+import {MatInput} from '@angular/material/input';
 
 @Component({
   selector: 'app-inicio',
@@ -10,7 +13,11 @@ import {Monedas} from '../../enums/monedas';
     ReactiveFormsModule,
     NgForOf,
     CurrencyPipe,
-    NgIf
+    NgIf,
+    NgOptimizedImage,
+    MatSelectModule,
+    MatFormFieldModule,
+    MatInput
   ],
   templateUrl: './inicio.component.html',
   styleUrl: './inicio.component.scss'

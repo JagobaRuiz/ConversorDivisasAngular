@@ -3,25 +3,45 @@
   <div class="container mt-4">
     <div class="row g-4 align-items-center row-cols-lg-6">
       <div class="col-auto">
-        <label for="cantidad">Importe:</label>
-        <input type="number" id="cantidad" formControlName="cantidad" class="form-control" placeholder="Importe" min="0" (keyup)="convertir()"/>
+        <mat-form-field hideRequiredMarker="true">
+          <mat-label>Importe:</mat-label>
+          <input matInput type="number" id="cantidad" formControlName="cantidad" placeholder="Importe" min="0" (keyup)="convertir()"/>
+        </mat-form-field>
       </div>
       <div class="col-auto">
-        <label for="monedaOrigen">De:</label>
-        <select class="form-select" id="monedaOrigen" formControlName="monedaOrigen">
-          <option *ngFor="let divisa of objectKeys(monedas)" [value]="divisa">{{getMoneda(divisa)}}</option>
-        </select>
+        <mat-form-field hideRequiredMarker="true">
+          <mat-label>De</mat-label>
+        <mat-select id="monedaOrigen" formControlName="monedaOrigen">
+          <mat-select-trigger>
+            <img class="rounded-circle" [ngSrc]="'assets/banderas/' + formularioConversion.get('monedaOrigen')?.value + '.png'" alt="" width="30" height="30"/>
+            {{ getMoneda(formularioConversion.get('monedaOrigen')?.value) }}
+          </mat-select-trigger>
+          <mat-option *ngFor="let divisa of objectKeys(monedas)" [value]="divisa">
+            <img alt="" class="rounded-circle" [ngSrc]="'assets/banderas/' + divisa + '.png'" width="30" height="30">
+            <span> {{getMoneda(divisa)}}</span>
+          </mat-option>
+        </mat-select>
+        </mat-form-field>
       </div>
       <div class="col-auto">
-        <label for="monedaOrigen">A:</label>
-        <select id="moneda" formControlName="monedaDestino" class="form-select">
-          <option *ngFor="let divisa of objectKeys(monedas)" [value]="divisa">{{getMoneda(divisa)}}</option>
-        </select>
-      </div>
-      <div class="col-auto">
-        <button class="btn btn-primary" type="submit" [disabled]="formularioConversion.invalid">Convertir</button>
-      </div>
+        <mat-form-field hideRequiredMarker="true">
+          <mat-label>A</mat-label>
+          <mat-select id="monedaDestino" formControlName="monedaDestino">
+            <mat-select-trigger>
+              <img class="rounded-circle" [ngSrc]="'assets/banderas/' + formularioConversion.get('monedaDestino')?.value + '.png'" alt="" width="30" height="30"/>
+              {{ getMoneda(formularioConversion.get('monedaDestino')?.value) }}
+            </mat-select-trigger>
+            <mat-option *ngFor="let divisa of objectKeys(monedas)" [value]="divisa">
+              <img alt="" class="rounded-circle" [ngSrc]="'assets/banderas/' + divisa + '.png'" width="30" height="30">
+              <span> {{getMoneda(divisa)}}</span>
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+<!--      <div class="col-auto">-->
+<!--        <button class="btn btn-primary" type="submit" [disabled]="formularioConversion.invalid">Convertir</button>-->
+<!--      </div>-->
     </div>
+  </div>
   </div>
 </form>
 
