@@ -6,6 +6,8 @@ import {Monedas} from '../../enums/monedas';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field'
 import {MatInput} from '@angular/material/input';
+import {MatButton} from '@angular/material/button';
+import {NgxMatSelectSearchModule} from 'ngx-mat-select-search';
 
 @Component({
   selector: 'app-inicio',
@@ -17,7 +19,9 @@ import {MatInput} from '@angular/material/input';
     NgOptimizedImage,
     MatSelectModule,
     MatFormFieldModule,
-    MatInput
+    MatInput,
+    MatButton,
+    NgxMatSelectSearchModule
   ],
   templateUrl: './inicio.component.html',
   styleUrl: './inicio.component.scss'
@@ -30,12 +34,17 @@ export class InicioComponent implements OnInit {
   formularioConversion: FormGroup;
   conversion: number | null = null;
   monedas = Monedas;
+  monedasArray  = Object.entries(Monedas);
+  resultadosBusquedaMonedaOrigen = [...this.monedasArray];
+  resultadosBusquedaMonedaDestino = [...this.monedasArray];
 
   constructor(private conversorService: ConversorService) {
     this.formularioConversion = new FormGroup({
       monedaOrigen: new FormControl('', [Validators.required]),
       monedaDestino: new FormControl('', [Validators.required]),
       cantidad: new FormControl('', [Validators.required]),
+      busquedaMonedaOrigen: new FormControl(null),
+      busquedaMonedaDestino: new FormControl(null),
     })
 
   }
@@ -46,6 +55,7 @@ export class InicioComponent implements OnInit {
         this.tasasDeCambio = tasas.rates;
       }
     })
+    console.log(this.resultadosBusquedaMonedaOrigen);
   }
 
   objectKeys(obj: any): string[] {
@@ -78,5 +88,39 @@ export class InicioComponent implements OnInit {
       this.conversion = null;
       alert('Tipo de cambio no disponible para las monedas seleccionadas.');
     }
+  }
+
+  buscar(origenOdestino: string) {
+    if (origenOdestino === "origen") {
+      const palabraAbuscar = this.eliminarTildes(this.formularioConversion.get('busquedaMonedaOrigen')?.value.toLowerCase());
+      console.log(palabraAbuscar);
+      this.resultadosBusquedaMonedaOrigen = this.monedasArray.filter(([key, value]) =>
+        this.eliminarTildes(value.toLowerCase()).includes(palabraAbuscar)
+      );
+    } else {
+      const palabraAbuscar = this.eliminarTildes(this.formularioConversion.get('busquedaMonedaDestino')?.value.toLowerCase());
+      this.resultadosBusquedaMonedaDestino = this.monedasArray.filter(([key, value]) =>
+        this.eliminarTildes(value.toLowerCase()).includes(palabraAbuscar)
+      );
+    }
+  }
+
+  limpiarBusqueda(origenOdestino: string) {
+    if (origenOdestino === "origen") {
+      this.formularioConversion.get('busquedaMonedaOrigen')?.setValue('');
+      this.resultadosBusquedaMonedaOrigen = [...this.monedasArray];
+    } else {
+      this.formularioConversion.get('busquedaMonedaDestino')?.setValue('');
+      this.resultadosBusquedaMonedaDestino = [...this.monedasArray];
+    }
+  }
+
+  eliminarTildes(cadena: string): string {
+    return cadena.normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // Elimina los caracteres diacríticos
+  }
+
+
+  invertirOrigenYdestino() {
+
   }
 }

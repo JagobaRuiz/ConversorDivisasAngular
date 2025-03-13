@@ -5,7 +5,7 @@
 
 mat-form-field {
   width: 24em;
-  //height: 4em;
+  height: 5rem;
 }
 
 .mat-mdc-form-field-infix {
@@ -38,6 +38,14 @@ h3 {
 button {
   top: 0.75em;
   position: relative;
-  height: 4em;
-  width: 7em;
+  //height: 4em;
+  //width: 7em;
 }
+
+i {
+  font-size: 1.5em;
+}
+
+//ngx-mat-select-search {
+//  background-color: rgb(239 237 240);
+//}
