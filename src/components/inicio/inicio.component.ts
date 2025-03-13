@@ -121,6 +121,14 @@ export class InicioComponent implements OnInit {
 
 
   invertirOrigenYdestino() {
+    const monedaOrigen = this.formularioConversion.get('monedaOrigen')?.value;
+    const monedaDestino = this.formularioConversion.get('monedaDestino')?.value;
 
+    this.formularioConversion.get('monedaOrigen')?.setValue(monedaDestino);
+    this.formularioConversion.get('monedaDestino')?.setValue(monedaOrigen);
+
+    if (this.formularioConversion.get('cantidad')?.value) {
+      this.convertir();
+    }
   }
 }
