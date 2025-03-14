@@ -11,7 +11,7 @@
       <div class="col-auto">
         <mat-form-field hideRequiredMarker="true" appearance="fill">
           <mat-label>De</mat-label>
-        <mat-select id="monedaOrigen" formControlName="monedaOrigen" (closed)="limpiarBusqueda('origen')">
+        <mat-select id="monedaOrigen" formControlName="monedaOrigen" (closed)="limpiarBusqueda('origen')" (valueChange)="convertir()">
           <mat-select-trigger>
             <img class="rounded-circle" [ngSrc]="'assets/banderas/' + formularioConversion.get('monedaOrigen')?.value + '.png'" alt="" width="30" height="30"/>
             {{ getMoneda(formularioConversion.get('monedaOrigen')?.value) }}
@@ -32,7 +32,7 @@
       <div class="col-auto">
         <mat-form-field hideRequiredMarker="true">
           <mat-label>A</mat-label>
-          <mat-select id="monedaDestino" formControlName="monedaDestino" (closed)="limpiarBusqueda('destino')">
+          <mat-select id="monedaDestino" formControlName="monedaDestino" (closed)="limpiarBusqueda('destino')" (valueChange)="convertir()">
             <mat-select-trigger>
               <img class="rounded-circle" [ngSrc]="'assets/banderas/' + formularioConversion.get('monedaDestino')?.value + '.png'" alt="" width="30" height="30"/>
               {{ getMoneda(formularioConversion.get('monedaDestino')?.value) }}
@@ -57,3 +57,5 @@
 <h3 class="mb-3 h3" *ngIf="conversion">
   {{cantidad | currency:monedaOrigen:'symbol':'1.2-2'}} = {{conversion | currency:monedaDestino:'symbol':'1.2-2'}}
 </h3>
+
+<app-tabla-conversiones-habituales *ngIf="monedaDestino && monedaOrigen && cantidad" [monedaOrigen]="monedaOrigen" [monedaDestino]="monedaDestino" [tasasDeCambio]="tasasDeCambio"></app-tabla-conversiones-habituales>

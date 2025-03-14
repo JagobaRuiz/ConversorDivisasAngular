@@ -8,6 +8,9 @@ import { MatFormFieldModule } from '@angular/material/form-field'
 import {MatInput} from '@angular/material/input';
 import {MatButton} from '@angular/material/button';
 import {NgxMatSelectSearchModule} from 'ngx-mat-select-search';
+import {
+  TablaConversionesHabitualesComponent
+} from '../tabla-conversiones-habituales/tabla-conversiones-habituales.component';
 
 @Component({
   selector: 'app-inicio',
@@ -21,7 +24,8 @@ import {NgxMatSelectSearchModule} from 'ngx-mat-select-search';
     MatFormFieldModule,
     MatInput,
     MatButton,
-    NgxMatSelectSearchModule
+    NgxMatSelectSearchModule,
+    TablaConversionesHabitualesComponent
   ],
   templateUrl: './inicio.component.html',
   styleUrl: './inicio.component.scss'
@@ -55,7 +59,16 @@ export class InicioComponent implements OnInit {
         this.tasasDeCambio = tasas.rates;
       }
     })
-    console.log(this.resultadosBusquedaMonedaOrigen);
+
+    //Suscripción al cambio de valor de los desplegables para que
+    this.formularioConversion.get('monedaOrigen')?.valueChanges.subscribe((monedaOrigen) => {
+      this.convertir();
+    });
+
+    this.formularioConversion.get('monedaDestino')?.valueChanges.subscribe((monedaDestino) => {
+      this.convertir();
+    });
+    // console.log(this.resultadosBusquedaMonedaOrigen);
   }
 
   objectKeys(obj: any): string[] {
@@ -72,22 +85,27 @@ export class InicioComponent implements OnInit {
   convertir() {
     this.monedaOrigen = this.formularioConversion.get('monedaOrigen')?.value;
     this.monedaDestino = this.formularioConversion.get('monedaDestino')?.value;
-    this.monedaDestino = this.formularioConversion.get('monedaDestino')?.value;
     this.cantidad = this.formularioConversion.get('cantidad')?.value;
 
     console.log(this.monedaOrigen);
     console.log(this.monedaDestino);
 
-    const tasaOrigen = this.tasasDeCambio[this.monedaOrigen];
-    const tasaDestino = this.tasasDeCambio[this.monedaDestino];
-    if (tasaOrigen && tasaDestino) {
-      // Calcula el tipo de cambio relativo
-      const tipoCambio = tasaDestino / tasaOrigen;
-      this.conversion = this.cantidad * tipoCambio;
+    if(this.monedaOrigen && this.monedaDestino && this.cantidad) {
+      const tasaOrigen = this.tasasDeCambio[this.monedaOrigen];
+      const tasaDestino = this.tasasDeCambio[this.monedaDestino];
+      if (tasaOrigen && tasaDestino) {
+        // Calcula el tipo de cambio relativo
+        const tipoCambio = tasaDestino / tasaOrigen;
+        this.conversion = this.cantidad * tipoCambio;
+      } else {
+        this.conversion = null;
+        alert('Tipo de cambio no disponible para las monedas seleccionadas.');
+      }
     } else {
       this.conversion = null;
-      alert('Tipo de cambio no disponible para las monedas seleccionadas.');
     }
+
+
   }
 
   buscar(origenOdestino: string) {
