@@ -1,10 +1,115 @@
+<div class="mt-5 pt-5"></div>
+<h4>Otras conversiones</h4>
 <div class="container mt-4">
   <div class="row g-4 row-cols-lg-6">
     <div class="col-auto">
-
+      <h5>{{monedaOrigenTexto}}</h5>
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th scope="col">{{monedaOrigenTexto}}</th>
+          <th scope="col">Moneda</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+              <td>
+                <img [ngSrc]="'assets/banderas/' + monedaOrigen + '.png'" class="me-2" width="20" height="20" alt=""/>
+                {{"1 " +  monedaOrigen}}
+              </td>
+              <td>
+                {{calcular(monedaOrigen, "EUR", 1) | currency:'EUR':'symbol':'1.3-3'}}
+               &nbsp; &nbsp; <img [ngSrc]="'assets/banderas/EUR.png'" class="me-2" width="20" height="20" alt=""/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <img [ngSrc]="'assets/banderas/' + monedaOrigen + '.png'" class="me-2" width="20" height="20" alt=""/>
+                {{"1 " +  monedaOrigen}}
+              </td>
+              <td>
+                {{calcular(monedaOrigen, "USD", 1) | currency:'USD':'symbol':'1.3-3'}}
+                <img [ngSrc]="'assets/banderas/USD.png'" class="me-2" width="20" height="20" alt=""/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <img [ngSrc]="'assets/banderas/' + monedaOrigen + '.png'" class="me-2" width="20" height="20" alt=""/>
+                {{"1 " +  monedaOrigen}}
+              </td>
+              <td>
+                {{calcular(monedaOrigen, "GBP", 1) | currency:'GBP':'symbol':'1.3-3'}}
+                <img [ngSrc]="'assets/banderas/GBP.png'" class="me-2" width="20" height="20" alt=""/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <img [ngSrc]="'assets/banderas/' + monedaOrigen + '.png'" class="me-2" width="20" height="20" alt=""/>
+                {{"1 " +  monedaOrigen}}
+              </td>
+              <td>
+                {{calcular(monedaOrigen, "CNY", 1) | currency:'CNY':'symbol':'1.3-3'}}
+                <img [ngSrc]="'assets/banderas/CNY.png'" class="me-2" width="20" height="20" alt=""/>
+              </td>
+            </tr>
+        </tbody>
+      </table>
     </div>
-    <div class="col-auto">
 
+    <div class="col-auto"></div>
+
+    <div class="col-auto">
+      <h5>{{monedaDestinoTexto}}</h5>
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th scope="col">{{monedaDestinoTexto}}</th>
+          <th scope="col">Moneda</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>
+            <img [ngSrc]="'assets/banderas/' + monedaDestino + '.png'" class="me-2" width="20" height="20" alt=""/>
+            {{"1 " +  monedaOrigen}}
+          </td>
+          <td>
+            {{calcular(monedaDestino, "EUR", 1) | currency:'EUR':'symbol':'1.3-3'}}
+            &nbsp; &nbsp; <img [ngSrc]="'assets/banderas/EUR.png'" class="me-2" width="20" height="20" alt=""/>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <img [ngSrc]="'assets/banderas/' + monedaDestino + '.png'" class="me-2" width="20" height="20" alt=""/>
+            {{"1 " +  monedaOrigen}}
+          </td>
+          <td>
+            {{calcular(monedaDestino, "USD", 1) | currency:'USD':'symbol':'1.3-3'}}
+            <img [ngSrc]="'assets/banderas/USD.png'" class="me-2" width="20" height="20" alt=""/>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <img [ngSrc]="'assets/banderas/' + monedaDestino + '.png'" class="me-2" width="20" height="20" alt=""/>
+            {{"1 " +  monedaDestino}}
+          </td>
+          <td>
+            {{calcular(monedaDestino, "GBP", 1) | currency:'GBP':'symbol':'1.3-3'}}
+            <img [ngSrc]="'assets/banderas/GBP.png'" class="me-2" width="20" height="20" alt=""/>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <img [ngSrc]="'assets/banderas/' + monedaDestino + '.png'" class="me-2" width="20" height="20" alt=""/>
+            {{"1 " +  monedaDestino}}
+          </td>
+          <td>
+            {{calcular(monedaDestino, "CNY", 1) | currency:'CNY':'symbol':'1.3-3'}}
+            <img [ngSrc]="'assets/banderas/CNY.png'" class="me-2" width="20" height="20" alt=""/>
+          </td>
+        </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
