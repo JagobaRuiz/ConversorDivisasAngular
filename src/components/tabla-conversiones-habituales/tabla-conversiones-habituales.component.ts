@@ -1,13 +1,14 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {Monedas} from '../../enums/monedas';
-import {CurrencyPipe, NgOptimizedImage} from '@angular/common';
+import {CurrencyPipe, NgIf, NgOptimizedImage} from '@angular/common';
 
 
 @Component({
   selector: 'app-tabla-conversiones-habituales',
   imports: [
     NgOptimizedImage,
-    CurrencyPipe
+    CurrencyPipe,
+    NgIf
   ],
   templateUrl: './tabla-conversiones-habituales.component.html',
   styleUrl: './tabla-conversiones-habituales.component.scss'
@@ -24,9 +25,18 @@ export class TablaConversionesHabitualesComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.monedaOrigenTexto = this.monedas[this.monedaOrigen as keyof typeof Monedas];
-    this.monedaOrigenTexto = this.monedaOrigenTexto.split(' - ')[1];
+    if (this.monedaOrigenTexto === this.monedas.AED) {
+      this.monedaOrigenTexto = 'Dírham EÁU';
+    } else {
+      this.monedaOrigenTexto = this.monedaOrigenTexto.split(' - ')[1];
+    }
+
     this.monedaDestinoTexto = this.monedas[this.monedaDestino as keyof typeof Monedas];
-    this.monedaDestinoTexto = this.monedaDestinoTexto.split(' - ')[1];
+    if (this.monedaDestinoTexto === this.monedas.AED) {
+      this.monedaDestinoTexto = 'Dírham EÁU';
+    } else {
+      this.monedaDestinoTexto = this.monedaDestinoTexto.split(' - ')[1];
+    }
     //this.calcular();
     // console.log(this.monedas[this.monedaOrigen as keyof typeof Monedas]);
   }
