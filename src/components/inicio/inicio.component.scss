@@ -46,6 +46,25 @@ i {
   font-size: 1.5em;
 }
 
+button:hover {
+  //background-color: #007bff; /* Color más oscuro en hover */
+  transform: scale(1.05); /* Agranda ligeramente */
+  transition: all 0.3s ease; /* Animación suave */
+}
+
+input, select {
+  border: 1px solid #ccc;
+  padding: 5px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+
+input:focus, select:focus {
+  border-color: #007bff; /* Color cuando se selecciona */
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+}
+
+
 //ngx-mat-select-search {
 //  background-color: rgb(239 237 240);
 //}
