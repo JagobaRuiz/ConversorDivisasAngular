@@ -64,6 +64,41 @@ input:focus, select:focus {
   box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
 }
 
+table {
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+  width: 100%;
+  margin: 1em 0;
+  font-size: 1em;
+}
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+
+@media (max-width: 768px) {
+  table {
+    font-size: 0.9em;
+  }
+}
+
+tr:hover {
+  background-color: #f9f9f9;
+}
+
+table {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.actualizacion {
+  margin-left: 1em;
+}
 
 //ngx-mat-select-search {
 //  background-color: rgb(239 237 240);

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ConversorService} from '../../services/conversor.service';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {CurrencyPipe, NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
+import {CurrencyPipe, DatePipe, NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
 import {Monedas} from '../../enums/monedas';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field'
@@ -11,6 +11,7 @@ import {NgxMatSelectSearchModule} from 'ngx-mat-select-search';
 import {
   TablaConversionesHabitualesComponent
 } from '../tabla-conversiones-habituales/tabla-conversiones-habituales.component';
+import {Historial} from '../../models/historial.model';
 
 @Component({
   selector: 'app-inicio',
@@ -25,7 +26,8 @@ import {
     MatInput,
     MatButton,
     NgxMatSelectSearchModule,
-    TablaConversionesHabitualesComponent
+    TablaConversionesHabitualesComponent,
+    DatePipe
   ],
   templateUrl: './inicio.component.html',
   styleUrl: './inicio.component.scss'
@@ -41,6 +43,9 @@ export class InicioComponent implements OnInit {
   monedasArray  = Object.entries(Monedas);
   resultadosBusquedaMonedaOrigen = [...this.monedasArray];
   resultadosBusquedaMonedaDestino = [...this.monedasArray];
+  historial: Historial[] = [];
+  estanMonedaOrigenYdestinoInvertidas: boolean = false;
+  fechaActualizacionTasasDeCambio!: Date;
 
   constructor(private conversorService: ConversorService) {
     this.formularioConversion = new FormGroup({
@@ -57,6 +62,7 @@ export class InicioComponent implements OnInit {
     this.conversorService.getTasasDeCambio().subscribe({
       next: (tasas: any) => {
         this.tasasDeCambio = tasas.rates;
+        this.fechaActualizacionTasasDeCambio = tasas.lastupdate;
       }
     })
 
@@ -68,7 +74,11 @@ export class InicioComponent implements OnInit {
     this.formularioConversion.get('monedaDestino')?.valueChanges.subscribe((monedaDestino) => {
       this.convertir();
     });
-    // console.log(this.resultadosBusquedaMonedaOrigen);
+    localStorage.removeItem('historial');
+    const historialGuardado = localStorage.getItem('historial');
+    if (historialGuardado) {
+      this.historial = JSON.parse(historialGuardado) as Historial[];
+    }
   }
 
   objectKeys(obj: any): string[] {
@@ -90,21 +100,40 @@ export class InicioComponent implements OnInit {
     console.log(this.monedaOrigen);
     console.log(this.monedaDestino);
 
-    if(this.monedaOrigen && this.monedaDestino && this.cantidad) {
+    if(this.monedaOrigen && this.monedaDestino && this.cantidad && (this.monedaOrigen !== this.monedaDestino && !this.estanMonedaOrigenYdestinoInvertidas)) {
       const tasaOrigen = this.tasasDeCambio[this.monedaOrigen];
       const tasaDestino = this.tasasDeCambio[this.monedaDestino];
       if (tasaOrigen && tasaDestino) {
         // Calcula el tipo de cambio relativo
         const tipoCambio = tasaDestino / tasaOrigen;
         this.conversion = this.cantidad * tipoCambio;
+
+        let lineaHistorial: Historial = {
+          monedaOrigen: this.monedaOrigen,
+          monedaDestino: this.monedaDestino,
+          importe: this.cantidad,
+          resultado: this.conversion,
+          fecha: new Date()
+        };
+
+        if (this.historial.length >= 10) {
+          this.historial.shift();
+        }
+
+        this.historial.push(lineaHistorial);
+        localStorage.setItem('historial', JSON.stringify(this.historial));
+
       } else {
         this.conversion = null;
         alert('Tipo de cambio no disponible para las monedas seleccionadas.');
       }
     } else {
       this.conversion = null;
-    }
+      if (this.estanMonedaOrigenYdestinoInvertidas) {
+        this.estanMonedaOrigenYdestinoInvertidas = false;
+      }
 
+    }
 
   }
 
@@ -144,8 +173,15 @@ export class InicioComponent implements OnInit {
 
     this.formularioConversion.get('monedaOrigen')?.setValue(monedaDestino);
     this.formularioConversion.get('monedaDestino')?.setValue(monedaOrigen);
+    this.estanMonedaOrigenYdestinoInvertidas = true;
 
-    if (this.formularioConversion.get('cantidad')?.value) {
+    // if (this.formularioConversion.get('cantidad')?.value) {
+    //   this.convertir();
+    // }
+  }
+
+  gestionarConversion() {
+    if (!this.estanMonedaOrigenYdestinoInvertidas) {
       this.convertir();
     }
   }

@@ -3,4 +3,5 @@ export interface Historial {
   monedaDestino: string,
   importe: number,
   resultado: number,
+  fecha: Date
 }

@@ -1,3 +1,4 @@
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 <form [formGroup]="formularioConversion" (ngSubmit)="convertir()">
 
   <div class="container mt-4">
@@ -5,57 +6,103 @@
       <div class="col-auto">
         <mat-form-field hideRequiredMarker="true">
           <mat-label>Importe</mat-label>
-          <input matInput type="number" id="cantidad" formControlName="cantidad" placeholder="Importe" min="0" (keyup)="convertir()"/>
+          <input matInput type="number" id="cantidad" formControlName="cantidad" placeholder="Importe" min="0"
+                 (keyup)="convertir()"/>
         </mat-form-field>
       </div>
       <div class="col-auto">
         <mat-form-field hideRequiredMarker="true" appearance="fill">
           <mat-label>De</mat-label>
-        <mat-select id="monedaOrigen" formControlName="monedaOrigen" (closed)="limpiarBusqueda('origen')" (valueChange)="convertir()">
-          <mat-select-trigger>
-            <img class="rounded-circle" [ngSrc]="'assets/banderas/' + formularioConversion.get('monedaOrigen')?.value + '.png'" alt="" width="30" height="30"/>
-            {{ getMoneda(formularioConversion.get('monedaOrigen')?.value) }}
-          </mat-select-trigger>
-          <mat-option class="search-field">
-            <ngx-mat-select-search noEntriesFoundLabel="No hay resultados" placeholderLabel="Buscar" formControlName="busquedaMonedaOrigen" id="busquedaMonedaOrigen" (keyup)="buscar('origen')" />
-          </mat-option>
-          <mat-option *ngFor="let divisa of resultadosBusquedaMonedaOrigen" [value]="divisa[0]">
-            <img alt="" class="rounded-circle" [ngSrc]="'assets/banderas/' + divisa[0] + '.png'" width="30" height="30">
-            <span> {{divisa[1]}}</span>
-          </mat-option>
-        </mat-select>
+          <mat-select id="monedaOrigen" formControlName="monedaOrigen" (closed)="limpiarBusqueda('origen')"
+                      (valueChange)="gestionarConversion()">
+            <mat-select-trigger>
+              <img class="rounded-circle"
+                   [ngSrc]="'assets/banderas/' + formularioConversion.get('monedaOrigen')?.value + '.png'" alt=""
+                   width="30" height="30"/>
+              {{ getMoneda(formularioConversion.get('monedaOrigen')?.value) }}
+            </mat-select-trigger>
+            <mat-option class="search-field">
+              <ngx-mat-select-search noEntriesFoundLabel="No hay resultados" placeholderLabel="Buscar"
+                                     formControlName="busquedaMonedaOrigen" id="busquedaMonedaOrigen"
+                                     (keyup)="buscar('origen')"/>
+            </mat-option>
+            <mat-option *ngFor="let divisa of resultadosBusquedaMonedaOrigen" [value]="divisa[0]">
+              <img alt="" class="rounded-circle" [ngSrc]="'assets/banderas/' + divisa[0] + '.png'" width="30"
+                   height="30">
+              <span> {{ divisa[1] }}</span>
+            </mat-option>
+          </mat-select>
         </mat-form-field>
       </div>
       <div class="col-auto">
-        <button mat-button type="button" (click)="invertirOrigenYdestino()"><i class="bi bi-arrow-left-right"></i></button>
+        <button mat-button type="button" (click)="invertirOrigenYdestino()"><i class="bi bi-arrow-left-right"></i>
+        </button>
       </div>
       <div class="col-auto">
         <mat-form-field hideRequiredMarker="true">
           <mat-label>A</mat-label>
-          <mat-select id="monedaDestino" formControlName="monedaDestino" (closed)="limpiarBusqueda('destino')" (valueChange)="convertir()">
+          <mat-select id="monedaDestino" formControlName="monedaDestino" (closed)="limpiarBusqueda('destino')"
+                      (valueChange)="convertir()">
             <mat-select-trigger>
-              <img class="rounded-circle" [ngSrc]="'assets/banderas/' + formularioConversion.get('monedaDestino')?.value + '.png'" alt="" width="30" height="30"/>
+              <img class="rounded-circle"
+                   [ngSrc]="'assets/banderas/' + formularioConversion.get('monedaDestino')?.value + '.png'" alt=""
+                   width="30" height="30"/>
               {{ getMoneda(formularioConversion.get('monedaDestino')?.value) }}
             </mat-select-trigger>
             <mat-option class="search-field">
-              <ngx-mat-select-search noEntriesFoundLabel="No hay resultados" placeholderLabel="Buscar" formControlName="busquedaMonedaDestino" id="busquedaMonedaDestino" (keyup)="buscar('destino')" />
+              <ngx-mat-select-search noEntriesFoundLabel="No hay resultados" placeholderLabel="Buscar"
+                                     formControlName="busquedaMonedaDestino" id="busquedaMonedaDestino"
+                                     (keyup)="buscar('destino')"/>
             </mat-option>
             <mat-option *ngFor="let divisa of resultadosBusquedaMonedaDestino" [value]="divisa[0]">
-              <img alt="" class="rounded-circle" [ngSrc]="'assets/banderas/' + divisa[0] + '.png'" width="30" height="30">
-              <span> {{divisa[1]}}</span>
+              <img alt="" class="rounded-circle" [ngSrc]="'assets/banderas/' + divisa[0] + '.png'" width="30"
+                   height="30">
+              <span> {{ divisa[1] }}</span>
             </mat-option>
           </mat-select>
         </mat-form-field>
-<!--      <div class="col-auto">-->
-<!--        <button mat-flat-button class="btn btn-primary" type="submit" [disabled]="formularioConversion.invalid">Convertir</button>-->
-<!--      </div>-->
+        <!--      <div class="col-auto">-->
+        <!--        <button mat-flat-button class="btn btn-primary" type="submit" [disabled]="formularioConversion.invalid">Convertir</button>-->
+        <!--      </div>-->
       </div>
     </div>
   </div>
 </form>
 
 <h3 class="mb-3 h3" *ngIf="conversion">
-  {{cantidad | currency:monedaOrigen:'symbol':'1.2-2'}} = {{conversion | currency:monedaDestino:'symbol':'1.2-2'}}
+  {{ cantidad | currency:monedaOrigen:'symbol':'1.2-2' }} = {{ conversion | currency:monedaDestino:'symbol':'1.2-2' }}
 </h3>
 
-<app-tabla-conversiones-habituales *ngIf="monedaDestino && monedaOrigen && cantidad" [monedaOrigen]="monedaOrigen" [monedaDestino]="monedaDestino" [tasasDeCambio]="tasasDeCambio"></app-tabla-conversiones-habituales>
+<app-tabla-conversiones-habituales *ngIf="monedaDestino && monedaOrigen && cantidad" [monedaOrigen]="monedaOrigen"
+                                   [monedaDestino]="monedaDestino"
+                                   [tasasDeCambio]="tasasDeCambio"></app-tabla-conversiones-habituales>
+
+
+<div class="container mt-4">
+  <div class="row g-4 row-cols-lg-2">
+    <div class="col-auto">
+      <h3>Historial de Conversiones</h3>
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th scope="col">Fecha</th>
+          <th scope="col">Importe</th>
+          <th scope="col">De</th>
+          <th scope="col">A</th>
+          <th scope="col">Resultado</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let lineaHistorial of historial">
+          <td>{{ lineaHistorial.fecha | date:'medium' }}</td>
+          <td>{{ lineaHistorial.importe | currency:lineaHistorial.monedaOrigen:'symbol':'1.2-2' }}</td>
+          <td>{{ lineaHistorial.monedaOrigen }}</td>
+          <td>{{ lineaHistorial.monedaDestino }}</td>
+          <td>{{ lineaHistorial.resultado | currency:lineaHistorial.monedaDestino:'symbol':'1.2-2' }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<p class="text-body actualizacion">Última actualización de tasas de cambio: {{fechaActualizacionTasasDeCambio | date:'medium'}}</p>
