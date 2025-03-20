@@ -17,8 +17,8 @@ mat-mdc-form-field-infix {
 }
 
 .mat-select-panel {
-  min-width: 300px !important; /* Ancho mínimo */
-  max-width: 400px !important; /* Ancho máximo opcional */
+  min-width: 300px !important;
+  max-width: 400px !important;
 }
 
 input, select {
@@ -38,8 +38,6 @@ h3 {
 button {
   top: 0.75em;
   position: relative;
-  //height: 4em;
-  //width: 7em;
 }
 
 i {
@@ -47,9 +45,8 @@ i {
 }
 
 button:hover {
-  //background-color: #007bff; /* Color más oscuro en hover */
-  transform: scale(1.05); /* Agranda ligeramente */
-  transition: all 0.3s ease; /* Animación suave */
+  transform: scale(1.05);
+  transition: all 0.3s ease;
 }
 
 input, select {
@@ -100,6 +97,8 @@ table {
   margin-left: 1em;
 }
 
-//ngx-mat-select-search {
-//  background-color: rgb(239 237 240);
-//}
+.alert, .alerta {
+  display: flex;
+  justify-content: center;
+  //width: 50%;
+}

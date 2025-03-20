@@ -1,3 +1,20 @@
 a {
   cursor: pointer;
 }
+
+.navbar {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* sombra */
+}
+
+.navbar-brand {
+  font-weight: bold;
+  color: #fff;
+}
+
+.nav-link {
+  color: #fff;
+}
+
+.nav-link:hover {
+  color: #f8f9fa; /* Color más claro al pasar el cursor encima*/
+}

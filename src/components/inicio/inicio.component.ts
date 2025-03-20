@@ -46,6 +46,7 @@ export class InicioComponent implements OnInit {
   historial: Historial[] = [];
   estanMonedaOrigenYdestinoInvertidas: boolean = false;
   fechaActualizacionTasasDeCambio!: Date;
+  error!: string;
 
   constructor(private conversorService: ConversorService) {
     this.formularioConversion = new FormGroup({
@@ -61,20 +62,25 @@ export class InicioComponent implements OnInit {
   ngOnInit(): void {
     this.conversorService.getTasasDeCambio().subscribe({
       next: (tasas: any) => {
+        console.log(tasas);
         this.tasasDeCambio = tasas.rates;
         this.fechaActualizacionTasasDeCambio = tasas.lastupdate;
+      },
+      error: (error) => {
+        this.error = error;
+        console.log(error);
       }
     })
 
-    //Suscripción al cambio de valor de los desplegables para que
+    //Suscripción al cambio de valor de los desplegables para que aún con el primer cambio haga la función
     this.formularioConversion.get('monedaOrigen')?.valueChanges.subscribe((monedaOrigen) => {
-      this.convertir();
+      this.gestionarConversion();
     });
 
     this.formularioConversion.get('monedaDestino')?.valueChanges.subscribe((monedaDestino) => {
       this.convertir();
     });
-    localStorage.removeItem('historial');
+
     const historialGuardado = localStorage.getItem('historial');
     if (historialGuardado) {
       this.historial = JSON.parse(historialGuardado) as Historial[];
@@ -174,10 +180,6 @@ export class InicioComponent implements OnInit {
     this.formularioConversion.get('monedaOrigen')?.setValue(monedaDestino);
     this.formularioConversion.get('monedaDestino')?.setValue(monedaOrigen);
     this.estanMonedaOrigenYdestinoInvertidas = true;
-
-    // if (this.formularioConversion.get('cantidad')?.value) {
-    //   this.convertir();
-    // }
   }
 
   gestionarConversion() {

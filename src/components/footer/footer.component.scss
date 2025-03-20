@@ -1,0 +1,42 @@
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+}
+
+li {
+  margin: 0 10px;
+}
+
+a {
+  text-decoration: none;
+  color: #002651;
+  font-size: 18px;
+}
+
+a:hover {
+  color: #0056b3;
+}
+
+footer {
+  background-color: #2c93d6 !important;
+}
+
+.navbar {
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* sombra */
+}
+
+.navbar-brand {
+  font-weight: bold;
+  color: #fff;
+}
+
+.nav-link {
+  color: #fff;
+}
+
+.nav-link:hover {
+  color: #f8f9fa; /* Color más claro al pasar el cursor por encima */
+}

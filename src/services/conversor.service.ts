@@ -14,11 +14,4 @@ export class ConversorService {
   getTasasDeCambio(): Observable<any> {
     return this.http.get(this.apiUrl);
   }
-
-// Función para convertir monedas
-  convertirMoneda(importeAConvertir: number, monedaOrigen: string, monedaAConvertir: string, tasas: any): number {
-    const tasaOrigen = tasas[monedaOrigen];
-    const tasaMonedaAConvertir = tasas[monedaAConvertir];
-    return (importeAConvertir / tasaOrigen) * tasaMonedaAConvertir;
-  }
 }
